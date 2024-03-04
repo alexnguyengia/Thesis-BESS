@@ -5,7 +5,7 @@ Implements rainflow cycle counting algorythm for fatigue analysis
 according to section 5.4.4 in ASTM E1049-85 (2011).
 """
 from __future__ import division
-from collections import deque, defaultdict
+from collections import deque, defaultdict, Counter
 import math
 
 __version__ = "3.2.0"
@@ -163,7 +163,7 @@ def count_cycles(series, ndigits=None, nbins=None, binsize=None):
                     raise Exception("Unexpected error")
                 n = n - 1
 
-            counts[n * binsize] += count
+            counts[n * binsize] += 1
             nmax = max(n, nmax)
 
         for i in range(1, nmax):
@@ -172,10 +172,13 @@ def count_cycles(series, ndigits=None, nbins=None, binsize=None):
     elif ndigits is not None:
         round_ = _get_round_function(ndigits)
         for rng, count in cycles:
-            counts[round_(rng)] += count
+            counts[round(rng)] += 1
 
     else:
-        for rng, count in cycles:
-            counts[rng] += count
+        for i in cycles:
+            
+            counts[i] += 1
+            
+        
 
-    return sorted(counts.items())
+    return counts
