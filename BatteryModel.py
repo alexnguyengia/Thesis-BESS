@@ -14,9 +14,23 @@ class Battery:
         self.average_dod = average_dod
         self.profile = pd.DataFrame(columns=['P', 'Q', 'SoC', 'DoD', 'SoH']) # a time-series with charge/discharge profile and the associated DOD, SOC, SOH
 
-    def add_data_point(self, timestamp, p, q, soc, dod, soh):
-        self.profile.loc[timestamp] = [p, q, soc, dod, soh]
+    def add_data_point(self, p):
+        self.profile['P'] = p 
+        self.profile['Q'] = 
+        self.profile['SoC']
+        self.profile['DoD']
+        self.profile['SoH']
         return self.profile
+    
+    def SoH_calculation:
+    #add rainflow counting and return SoH
+
+    def SoC_calculation:
+    #Calculate SOC
+
+    def DOD_calculation:
+    #Calculate DOD from SOC or P
+
     
     def get_battery_info(self):
         print("Battery type: ", self.type, "\n")
