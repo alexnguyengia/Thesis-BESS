@@ -75,12 +75,12 @@ def extract_cycles(series):
     """
     points = deque()
 
-    def format_output(point1, point2, count):
+    def format_output(point1, point2, type):
         i1, x1 = point1
         i2, x2 = point2
         rng = abs(x1 - x2)
         mean = 0.5 * (x1 + x2)
-        return rng, mean, count, i1, i2
+        return rng, mean, type, i1, i2
 
     for point in reversals(series):
         points.append(point)
@@ -143,16 +143,16 @@ def count_cycles(series, ndigits=None, nbins=None, binsize=None):
 
     counts = defaultdict(float)
     cycles = (
-        (rng, count)
-        for rng, mean, count, i_start, i_end in extract_cycles(series)
-    )
+        (rng, type)
+        for rng, mean, type, i_start, i_end in extract_cycles(series)
+    ) #declare a pair or soc (rng) and it's cycle type (count) 
 
     if nbins is not None:
         binsize = (max(series) - min(series)) / nbins
 
     if binsize is not None:
         nmax = 0
-        for rng, count in cycles:
+        for rng, type in cycles:
             quotient = rng / binsize
             n = int(math.ceil(quotient))  # using int for Python 2 compatibility
 
@@ -171,8 +171,8 @@ def count_cycles(series, ndigits=None, nbins=None, binsize=None):
 
     elif ndigits is not None:
         round_ = _get_round_function(ndigits)
-        for rng, count in cycles:
-            counts[round(rng)] += 1
+        for i in cycles:
+            counts[i] += 1
 
     else:
         for i in cycles:
