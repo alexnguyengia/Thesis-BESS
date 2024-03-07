@@ -179,6 +179,20 @@ def count_cycles(series, ndigits=None, nbins=None, binsize=None):
             
             counts[i] += 1
             
+            
         
 
     return counts
+
+def calculate_damage(series, k1, k2):
+    #k1 and k2 here are the degradation factor of a certain battery type
+
+    cycle_count=rainflow.count_cycles(SoC_timeseries)
+    total_damage=0
+    for key, value in cycle_count.items():
+        damage = value*key[1]*k2*(key[0]**k1)
+    
+        total_damage=total_damage+damage
+
+   
+    return total_damage
